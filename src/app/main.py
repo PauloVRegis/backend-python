@@ -1,5 +1,6 @@
 from flask import Blueprint, request, jsonify, make_response
 from flask_sqlalchemy import SQLAlchemy
+import uuid
 
 from src.app import modelos
 
