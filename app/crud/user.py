@@ -1,10 +1,6 @@
 from sqlalchemy.orm import Session
 from ..models.user import User
 from ..schemas.user import UserCreate
-from ..schemas.professor import ProfessorCreate
-from ..models.professor import Professor
-from ..crud.professor import get_professor
-from ..crud.professor import create_professor
 from ..utils.security import get_password_hash
 
 def create_user(db: Session, user: UserCreate):

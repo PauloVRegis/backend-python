@@ -9,3 +9,4 @@ class Professor(Base):
     name = Column(String, index=True)
 
     users = relationship("User", back_populates="professor")
+    trainings = relationship("Training", back_populates="professor")
