@@ -1,14 +1,16 @@
 from sqlalchemy.orm import Session
 from ..models.training import Training
 from ..schemas.training import TrainingCreate
+from ..models.user import User
+from ..models.professor import Professor
 
-def create_training(db: Session, training: TrainingCreate):
-    db_training = Training(
-        name=training.name,
-        description=training.description,
-        student_id=training.student_id,
-        professor_id=training.professor_id
-    )
+# Create training associating it with a user
+def create_training(db: Session, training: TrainingCreate, user_id: int, professor_id: int):
+    user = db.query(User).filter(User.id == training.user_id).first()
+    professor = db.query(User).filter(User.id == training.professor_id).first()
+    if not user:
+        raise ValueError("Usuário não encontrado")
+    db_training = Training(**training.model_dump())
     db.add(db_training)
     db.commit()
     db.refresh(db_training)

@@ -4,15 +4,20 @@ from datetime import datetime
 class TrainingBase(BaseModel):
     name: str
     description: str
-    student_id: int  # ID do aluno
-    professor_id: int  # ID do professor
+    user_id: int  # 💡 Confirme que está definido aqui
+    professor_id: int  # 💡 Confirme que está definido aqui
+    repetitions: int
+    sets: int
+    load: float
 
 class TrainingCreate(TrainingBase):
     pass
 
 class Training(TrainingBase):
     id: int
+    volume: float
+    intensity: float
     created_at: datetime
 
     class Config:
-        from_attributes = True  
+        from_attributes = True

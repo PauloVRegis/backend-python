@@ -1,6 +1,7 @@
 from sqlalchemy import Column, Integer, String, ForeignKey
 from sqlalchemy.orm import relationship
 from .base import Base  # Importe a classe Base corretamente
+from .training import Training
 
 class User(Base):
     __tablename__ = "users"
@@ -11,4 +12,4 @@ class User(Base):
     professor_id = Column(Integer, ForeignKey("professors.id"))
 
     professor = relationship("Professor", back_populates="users")
-    trainings = relationship("Training", back_populates="student")
+    trainings = relationship("Training", back_populates="user")

@@ -1,6 +1,7 @@
 from sqlalchemy import Column, Integer, String
 from sqlalchemy.orm import relationship
 from .base import Base  # Importe a classe Base corretamente
+from .training import Training
 
 class Professor(Base):
     __tablename__ = "professors"
