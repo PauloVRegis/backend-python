@@ -4,17 +4,39 @@ from ..schemas.training import TrainingCreate
 from ..models.user import User
 from ..models.professor import Professor
 
-# Create training associating it with a user
+# Create training associating it with a user. 
+# The user_id and professor_id are passed as arguments.
+# Calculating the volume, intensity and load of the training.
 def create_training(db: Session, training: TrainingCreate, user_id: int, professor_id: int):
-    user = db.query(User).filter(User.id == training.user_id).first()
-    professor = db.query(User).filter(User.id == training.professor_id).first()
+    user = db.query(User).filter(User.id == user_id).first()
+    professor = db.query(Professor).filter(Professor.id == professor_id).first()
     if not user:
         raise ValueError("Usuário não encontrado")
+    if not professor:
+        raise ValueError("Professor não encontrado")
     db_training = Training(**training.model_dump())
+    db_training.user_id = user_id
+    db_training.professor_id = professor_id
     db.add(db_training)
     db.commit()
     db.refresh(db_training)
     return db_training
+
+
+
+
+
+
+# def create_training(db: Session, training: TrainingCreate, user_id: int, professor_id: int):
+#     user = db.query(User).filter(User.id == training.user_id).first()
+#     professor = db.query(User).filter(User.id == training.professor_id).first()
+#     if not user:
+#         raise ValueError("Usuário não encontrado")
+#     db_training = Training(**training.model_dump())
+#     db.add(db_training)
+#     db.commit()
+#     db.refresh(db_training)
+#     return db_training
 
 def get_training(db: Session, training_id: int):
     return db.query(Training).filter(Training.id == training_id).first()

@@ -13,9 +13,19 @@ class Training(Base):
     professor_id = Column(Integer, ForeignKey("professors.id"))
     repetitions = Column(Integer)
     sets = Column(Integer)
-    load = Column(Float) 
-    volume = Column(Float)
-    intensity = Column(Float)
     created_at = Column(DateTime, default=datetime.now)
-    user = relationship("User", back_populates="trainings")
+    users = relationship("User", back_populates="trainings")
     professor = relationship("Professor", back_populates="trainings")
+    training_registration = relationship("TrainingRegistration", back_populates="trainings")
+
+class TrainingExercise(Base):
+    __tablename__ = "training_exercises"
+
+    id          = Column(Integer, primary_key=True, index=True)
+    training_id = Column(Integer, ForeignKey("trainings.id"))
+    exercise_id = Column(Integer, ForeignKey("exercises.id"))
+    repetitions = Column(Integer)
+    sets        = Column(Integer)
+
+    training    = relationship("Training", back_populates="training_exercises")
+    exercise    = relationship("Exercise", back_populates="trainings")

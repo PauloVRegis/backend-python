@@ -12,4 +12,5 @@ class User(Base):
     professor_id = Column(Integer, ForeignKey("professors.id"))
 
     professor = relationship("Professor", back_populates="users")
-    trainings = relationship("Training", back_populates="user")
+    trainings = relationship("Training", back_populates="users")
+    training_registration = relationship("TrainingRegistration", back_populates="users")

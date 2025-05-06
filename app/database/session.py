@@ -1,6 +1,7 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from app.models.base import Base  # Importe a classe Base corretamente
+from app.models import training, training_logical, exercise, professor, user  # Importe os modelos corretamente
 
 # Defina a URL do banco de dados (SQLite neste exemplo)
 DATABASE_URL = "sqlite:///./smart_force.db"
@@ -12,7 +13,7 @@ engine = create_engine(DATABASE_URL, connect_args={"check_same_thread": False})
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 # Crie as tabelas no banco de dados (se não existirem)
-Base.metadata.create_all(bind=engine)
+Base.metadata.create_all(engine)
 
 def get_db():
     db = SessionLocal()

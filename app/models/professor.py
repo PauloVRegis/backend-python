@@ -11,3 +11,4 @@ class Professor(Base):
 
     users = relationship("User", back_populates="professor")
     trainings = relationship("Training", back_populates="professor")
+    training_registration = relationship("TrainingRegistration", back_populates="professor")
