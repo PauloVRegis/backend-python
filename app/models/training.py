@@ -16,7 +16,8 @@ class Training(Base):
     created_at = Column(DateTime, default=datetime.now)
     users = relationship("User", back_populates="trainings")
     professor = relationship("Professor", back_populates="trainings")
-    training_registration = relationship("TrainingRegistration", back_populates="trainings")
+    training_registration = relationship("TrainingRegistration", back_populates="training")
+    training_exercises = relationship("TrainingExercise", back_populates="training")
 
 class TrainingExercise(Base):
     __tablename__ = "training_exercises"
