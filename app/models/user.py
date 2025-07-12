@@ -1,15 +1,17 @@
-from sqlalchemy import Column, Integer, String, ForeignKey
+from sqlalchemy import Column, Integer, String, ForeignKey, DateTime
 from sqlalchemy.orm import relationship
-from .base import Base  # Importe a classe Base corretamente
-from .training import Training
+from .base import Base
+from datetime import datetime
 
 class User(Base):
     __tablename__ = "users"
 
     id = Column(Integer, primary_key=True, index=True)
     email = Column(String, unique=True, index=True)
-    hashed_password = Column(String)
-    professor_id = Column(Integer, ForeignKey("professors.id"))
+    name = Column(String)
+    password_hash = Column(String)
+    created_at = Column(DateTime, default=datetime.now)
 
-    professor = relationship("Professor", back_populates="users")
-    trainings = relationship("Training", back_populates="user")
+    # Relationships
+    trainings = relationship("Training", back_populates="users")
+    training_registration = relationship("TrainingRegistration", back_populates="user")
