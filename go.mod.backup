@@ -1,0 +1,14 @@
+module backend-python
+
+go 1.18
+
+require (
+	github.com/gin-contrib/cors v1.4.0
+	github.com/gin-gonic/gin v1.9.1
+	github.com/golang-jwt/jwt/v4 v4.5.2
+	github.com/joho/godotenv v1.4.0
+	github.com/prometheus/client_golang v1.14.0
+	gorm.io/driver/postgres v1.4.8
+	gorm.io/driver/sqlite v1.4.4
+	gorm.io/gorm v1.24.7-0.20230306060331-85eaf9eeda11
+)
