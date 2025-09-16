@@ -1,0 +1,1363 @@
+basePath: /api/v1
+definitions:
+  models.Exercise:
+    properties:
+      created_at:
+        type: string
+      description:
+        type: string
+      difficulty:
+        description: beginner, intermediate, advanced
+        type: string
+      equipment:
+        type: string
+      id:
+        type: integer
+      image_url:
+        type: string
+      instructions:
+        type: string
+      muscle_group:
+        type: string
+      name:
+        type: string
+      training_exercises:
+        description: Relationships
+        items:
+          $ref: '#/definitions/models.TrainingExercise'
+        type: array
+      updated_at:
+        type: string
+      video_url:
+        type: string
+    type: object
+  models.ExerciseCreate:
+    properties:
+      description:
+        type: string
+      difficulty:
+        enum:
+        - beginner
+        - intermediate
+        - advanced
+        type: string
+      equipment:
+        type: string
+      image_url:
+        type: string
+      instructions:
+        type: string
+      muscle_group:
+        type: string
+      name:
+        maxLength: 100
+        minLength: 2
+        type: string
+      video_url:
+        type: string
+    required:
+    - muscle_group
+    - name
+    type: object
+  models.ExerciseUpdate:
+    properties:
+      description:
+        type: string
+      difficulty:
+        enum:
+        - beginner
+        - intermediate
+        - advanced
+        type: string
+      equipment:
+        type: string
+      image_url:
+        type: string
+      instructions:
+        type: string
+      muscle_group:
+        type: string
+      name:
+        maxLength: 100
+        minLength: 2
+        type: string
+      video_url:
+        type: string
+    type: object
+  models.LoginRequest:
+    properties:
+      email:
+        type: string
+      password:
+        type: string
+    required:
+    - email
+    - password
+    type: object
+  models.LoginResponse:
+    properties:
+      access_token:
+        type: string
+      expires_in:
+        type: integer
+      token_type:
+        type: string
+      user:
+        $ref: '#/definitions/models.UserResponse'
+    type: object
+  models.Professor:
+    properties:
+      bio:
+        type: string
+      created_at:
+        type: string
+      email:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+      phone:
+        type: string
+      specialties:
+        type: string
+      trainings:
+        description: Relationships
+        items:
+          $ref: '#/definitions/models.Training'
+        type: array
+      updated_at:
+        type: string
+    type: object
+  models.ProfessorCreate:
+    properties:
+      bio:
+        type: string
+      email:
+        type: string
+      name:
+        maxLength: 100
+        minLength: 2
+        type: string
+      phone:
+        type: string
+      specialties:
+        type: string
+    required:
+    - email
+    - name
+    type: object
+  models.ProfessorUpdate:
+    properties:
+      bio:
+        type: string
+      email:
+        type: string
+      name:
+        maxLength: 100
+        minLength: 2
+        type: string
+      phone:
+        type: string
+      specialties:
+        type: string
+    type: object
+  models.Training:
+    properties:
+      created_at:
+        type: string
+      description:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+      professor:
+        $ref: '#/definitions/models.Professor'
+      professor_id:
+        type: integer
+      repetitions:
+        type: integer
+      sets:
+        type: integer
+      training_exercises:
+        items:
+          $ref: '#/definitions/models.TrainingExercise'
+        type: array
+      training_registrations:
+        items:
+          $ref: '#/definitions/models.TrainingRegistration'
+        type: array
+      updated_at:
+        type: string
+      user:
+        allOf:
+        - $ref: '#/definitions/models.User'
+        description: Relationships
+      user_id:
+        type: integer
+    type: object
+  models.TrainingCreate:
+    properties:
+      description:
+        type: string
+      name:
+        maxLength: 100
+        minLength: 2
+        type: string
+      professor_id:
+        type: integer
+      repetitions:
+        type: integer
+      sets:
+        type: integer
+    required:
+    - name
+    - professor_id
+    type: object
+  models.TrainingExercise:
+    properties:
+      exercise:
+        $ref: '#/definitions/models.Exercise'
+      exercise_id:
+        type: integer
+      id:
+        type: integer
+      repetitions:
+        type: integer
+      sets:
+        type: integer
+      training:
+        allOf:
+        - $ref: '#/definitions/models.Training'
+        description: Relationships
+      training_id:
+        type: integer
+    type: object
+  models.TrainingExerciseCreate:
+    properties:
+      exercise_id:
+        type: integer
+      repetitions:
+        type: integer
+      sets:
+        type: integer
+    required:
+    - exercise_id
+    type: object
+  models.TrainingRegistration:
+    properties:
+      completed:
+        type: boolean
+      created_at:
+        type: string
+      date:
+        type: string
+      id:
+        type: integer
+      training:
+        $ref: '#/definitions/models.Training'
+      training_id:
+        type: integer
+      updated_at:
+        type: string
+      user:
+        allOf:
+        - $ref: '#/definitions/models.User'
+        description: Relationships
+      user_id:
+        type: integer
+    type: object
+  models.TrainingUpdate:
+    properties:
+      description:
+        type: string
+      name:
+        maxLength: 100
+        minLength: 2
+        type: string
+      professor_id:
+        type: integer
+      repetitions:
+        type: integer
+      sets:
+        type: integer
+    type: object
+  models.User:
+    properties:
+      created_at:
+        type: string
+      email:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+      training_registrations:
+        items:
+          $ref: '#/definitions/models.TrainingRegistration'
+        type: array
+      trainings:
+        description: Relationships
+        items:
+          $ref: '#/definitions/models.Training'
+        type: array
+      updated_at:
+        type: string
+    type: object
+  models.UserCreate:
+    properties:
+      email:
+        type: string
+      name:
+        maxLength: 100
+        minLength: 2
+        type: string
+      password:
+        minLength: 6
+        type: string
+    required:
+    - email
+    - name
+    - password
+    type: object
+  models.UserResponse:
+    properties:
+      created_at:
+        type: string
+      email:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+    type: object
+  models.UserUpdate:
+    properties:
+      email:
+        type: string
+      name:
+        maxLength: 100
+        minLength: 2
+        type: string
+    type: object
+host: localhost:8000
+info:
+  contact:
+    email: support@swagger.io
+    name: API Support
+    url: http://www.swagger.io/support
+  description: A comprehensive workout training application with user management and
+    exercise tracking
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+  termsOfService: http://swagger.io/terms/
+  title: SmartForce API
+  version: "1.0"
+paths:
+  /auth/login:
+    post:
+      consumes:
+      - application/json
+      description: Authenticate user and return JWT token
+      parameters:
+      - description: Login credentials
+        in: body
+        name: credentials
+        required: true
+        schema:
+          $ref: '#/definitions/models.LoginRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.LoginResponse'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: User login
+      tags:
+      - auth
+  /auth/me:
+    get:
+      consumes:
+      - application/json
+      description: Get current authenticated user information
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.UserResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - ApiKeyAuth: []
+      summary: Get current user
+      tags:
+      - auth
+  /auth/refresh:
+    post:
+      consumes:
+      - application/json
+      description: Refresh the access token using a valid token
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.LoginResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - ApiKeyAuth: []
+      summary: Refresh access token
+      tags:
+      - auth
+  /auth/register:
+    post:
+      consumes:
+      - application/json
+      description: Register a new user account
+      parameters:
+      - description: User registration data
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/models.UserCreate'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/models.LoginResponse'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "409":
+          description: Conflict
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: User registration
+      tags:
+      - auth
+  /exercises:
+    get:
+      consumes:
+      - application/json
+      description: Get all exercises with pagination and optional filtering
+      parameters:
+      - default: 0
+        description: Skip records
+        in: query
+        name: skip
+        type: integer
+      - default: 100
+        description: Limit records
+        in: query
+        name: limit
+        type: integer
+      - description: Filter by muscle group
+        in: query
+        name: muscle_group
+        type: string
+      - description: Filter by difficulty
+        in: query
+        name: difficulty
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Exercise'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get all exercises
+      tags:
+      - exercises
+    post:
+      consumes:
+      - application/json
+      description: Create a new exercise
+      parameters:
+      - description: Exercise data
+        in: body
+        name: exercise
+        required: true
+        schema:
+          $ref: '#/definitions/models.ExerciseCreate'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/models.Exercise'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - ApiKeyAuth: []
+      summary: Create a new exercise
+      tags:
+      - exercises
+  /exercises/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete an exercise
+      parameters:
+      - description: Exercise ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - ApiKeyAuth: []
+      summary: Delete exercise
+      tags:
+      - exercises
+    get:
+      consumes:
+      - application/json
+      description: Get a specific exercise by ID
+      parameters:
+      - description: Exercise ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Exercise'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get exercise by ID
+      tags:
+      - exercises
+    put:
+      consumes:
+      - application/json
+      description: Update exercise information
+      parameters:
+      - description: Exercise ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Exercise data
+        in: body
+        name: exercise
+        required: true
+        schema:
+          $ref: '#/definitions/models.ExerciseUpdate'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Exercise'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - ApiKeyAuth: []
+      summary: Update exercise
+      tags:
+      - exercises
+  /exercises/muscle-groups:
+    get:
+      consumes:
+      - application/json
+      description: Get a list of all available muscle groups
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              type: string
+            type: array
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get all muscle groups
+      tags:
+      - exercises
+  /professors:
+    get:
+      consumes:
+      - application/json
+      description: Get all professors with pagination
+      parameters:
+      - default: 0
+        description: Skip records
+        in: query
+        name: skip
+        type: integer
+      - default: 100
+        description: Limit records
+        in: query
+        name: limit
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Professor'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get all professors
+      tags:
+      - professors
+    post:
+      consumes:
+      - application/json
+      description: Create a new professor
+      parameters:
+      - description: Professor data
+        in: body
+        name: professor
+        required: true
+        schema:
+          $ref: '#/definitions/models.ProfessorCreate'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/models.Professor'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties: true
+            type: object
+        "409":
+          description: Conflict
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - ApiKeyAuth: []
+      summary: Create a new professor
+      tags:
+      - professors
+  /professors/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete a professor
+      parameters:
+      - description: Professor ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - ApiKeyAuth: []
+      summary: Delete professor
+      tags:
+      - professors
+    get:
+      consumes:
+      - application/json
+      description: Get a specific professor by ID
+      parameters:
+      - description: Professor ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Professor'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get professor by ID
+      tags:
+      - professors
+    put:
+      consumes:
+      - application/json
+      description: Update professor information
+      parameters:
+      - description: Professor ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Professor data
+        in: body
+        name: professor
+        required: true
+        schema:
+          $ref: '#/definitions/models.ProfessorUpdate'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Professor'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties: true
+            type: object
+        "409":
+          description: Conflict
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - ApiKeyAuth: []
+      summary: Update professor
+      tags:
+      - professors
+  /trainings:
+    get:
+      consumes:
+      - application/json
+      description: Get all trainings with pagination
+      parameters:
+      - default: 0
+        description: Skip records
+        in: query
+        name: skip
+        type: integer
+      - default: 100
+        description: Limit records
+        in: query
+        name: limit
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Training'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - ApiKeyAuth: []
+      summary: Get all trainings
+      tags:
+      - trainings
+    post:
+      consumes:
+      - application/json
+      description: Create a new training
+      parameters:
+      - description: Training data
+        in: body
+        name: training
+        required: true
+        schema:
+          $ref: '#/definitions/models.TrainingCreate'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/models.Training'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - ApiKeyAuth: []
+      summary: Create a new training
+      tags:
+      - trainings
+  /trainings/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete a training
+      parameters:
+      - description: Training ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties: true
+            type: object
+        "403":
+          description: Forbidden
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - ApiKeyAuth: []
+      summary: Delete training
+      tags:
+      - trainings
+    get:
+      consumes:
+      - application/json
+      description: Get a specific training by ID
+      parameters:
+      - description: Training ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Training'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - ApiKeyAuth: []
+      summary: Get training by ID
+      tags:
+      - trainings
+    put:
+      consumes:
+      - application/json
+      description: Update training information
+      parameters:
+      - description: Training ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Training data
+        in: body
+        name: training
+        required: true
+        schema:
+          $ref: '#/definitions/models.TrainingUpdate'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Training'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties: true
+            type: object
+        "403":
+          description: Forbidden
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - ApiKeyAuth: []
+      summary: Update training
+      tags:
+      - trainings
+  /trainings/{id}/exercises:
+    post:
+      consumes:
+      - application/json
+      description: Add an exercise to a training
+      parameters:
+      - description: Training ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Exercise data
+        in: body
+        name: exercise
+        required: true
+        schema:
+          $ref: '#/definitions/models.TrainingExerciseCreate'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/models.TrainingExercise'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties: true
+            type: object
+        "403":
+          description: Forbidden
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - ApiKeyAuth: []
+      summary: Add exercise to training
+      tags:
+      - trainings
+  /users:
+    get:
+      consumes:
+      - application/json
+      description: Get all users with pagination
+      parameters:
+      - default: 0
+        description: Skip records
+        in: query
+        name: skip
+        type: integer
+      - default: 100
+        description: Limit records
+        in: query
+        name: limit
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.UserResponse'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - ApiKeyAuth: []
+      summary: Get all users
+      tags:
+      - users
+    post:
+      consumes:
+      - application/json
+      description: Create a new user with email and password
+      parameters:
+      - description: User data
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/models.UserCreate'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/models.UserResponse'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "409":
+          description: Conflict
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Create a new user
+      tags:
+      - users
+  /users/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete a user account
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties: true
+            type: object
+        "403":
+          description: Forbidden
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - ApiKeyAuth: []
+      summary: Delete user
+      tags:
+      - users
+    get:
+      consumes:
+      - application/json
+      description: Get a specific user by ID
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.UserResponse'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - ApiKeyAuth: []
+      summary: Get user by ID
+      tags:
+      - users
+    put:
+      consumes:
+      - application/json
+      description: Update user information
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: User data
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/models.UserUpdate'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.UserResponse'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties: true
+            type: object
+        "403":
+          description: Forbidden
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - ApiKeyAuth: []
+      summary: Update user
+      tags:
+      - users
+securityDefinitions:
+  ApiKeyAuth:
+    description: Type "Bearer" followed by a space and JWT token.
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"
